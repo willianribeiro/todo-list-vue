@@ -1,10 +1,10 @@
 <template>
   <ul class="todo-list">
-    <li v-for="(todo, index) in sortedTasks" class="todo" :key="index">
+    <li v-for="(task, index) in sortedTasks" class="todo" :key="index">
       <div class="view">
-        <input type="checkbox" @click="completeTask(todo)" class="toggle">
-        <label v-bind:class="{'todo-completed': todo.completed }">
-          {{ todo.title }}
+        <input type="checkbox" @click="completeTask(task)" class="toggle">
+        <label :class="{'todo-completed': task.completed }">
+          {{ task.title }}
         </label>
       </div>
     </li>
@@ -25,6 +25,17 @@ export default {
         })
       return sorted
     }
+  },
+  methods: {
+    completeTask (task) {
+      task.completed = !task.completed
+    }
   }
 }
 </script>
+
+<style>
+  .todo-completed {
+    text-decoration: line-through;
+  }
+</style>
