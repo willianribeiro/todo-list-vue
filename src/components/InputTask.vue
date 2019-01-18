@@ -1,7 +1,7 @@
 <template>
   <div>
     <input
-      @keyup.enter="addTask"
+      @keyup.enter="onAddTask"
       type="text"
       class="new-todo"
       placeholder="O que precisa ser feito?"
@@ -17,14 +17,26 @@ export default {
     return {
     }
   },
+
   methods: {
-    addTask ($event) {
+    onAddTask ($event) {
+      const target = $event.target
       const value = $event.target.value
+      const task = this.createTask(value)
+      this.broadcast(task)
+      this.clearField(target)
+    },
+    createTask  (value) {
       const task = new Task()
       task.completed = false
       task.title = value
+      return task
+    },
+    broadcast (task) {
       this.$emit('newTask', task)
-      $event.target.value = ''
+    },
+    clearField () {
+      this.$el.querySelector('input').value = ''
     }
   }
 }
